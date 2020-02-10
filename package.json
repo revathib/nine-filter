@@ -1,0 +1,25 @@
+{
+  "name": "simple-filter-json",
+  "version": "1.0.0",
+  "description": "create simple app to filter JSON",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/revathipathuri/simple-filter-json.git"
+  },
+  "keywords": [
+    "title",
+    "slug",
+    "image",
+    "showImage"
+  ],
+  "author": "Revathi Pathuri",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/revathipathuri/simple-filter-json/issues"
+  },
+  "homepage": "https://gitlab.com/revathipathuri/simple-filter-json#readme"
+}
