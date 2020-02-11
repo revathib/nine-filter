@@ -7,7 +7,7 @@ app.use(bodyParser.json());
 
 app.use(function(error, req, res, next) {
   if (error instanceof SyntaxError) {
-    return res.status(400).json({ status: 400, message: 'JSON parsing failed' });
+    return res.status(400).json({ status: 400, error: 'JSON parsing failed' });
   } else {
     next();
   }
@@ -31,8 +31,7 @@ app.post('/', async (request, res) => {
       return res.send(sendResponseData);
     } else {
       return res.status(400).json({
-        error: 'Payload not found',
-        details: 'Please check your data before sending'
+        error: 'Payload not found'
       });
     }
   } catch (e) {
