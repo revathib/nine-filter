@@ -5,16 +5,24 @@ const bodyParser = require('body-parser');
 // parse application/json
 app.use(bodyParser.json());
 
-let filter = require('./src/filter');
+let Filter = require('./src/filter');
 const corsOptions = {
   allowedHeaders: ['Origin', 'Content-Type', 'Accept'],
   methods: ['POST']
 };
-
 app.use(cors(corsOptions));
-app.post('/', async (request, response) => {
-  console.log(request.body);
-  return response.send('success');
+
+app.post('/', async (request, res) => {
+  if (Filter.checkIfPayload(request.body)) {
+    let responseData = await Filter.checkRightValuesAndSendArray(request.body.payload);
+    let sendResponseData = { response: responseData };
+    return res.send(sendResponseData);
+  } else {
+    return res.status(400).json({
+      message: 'payload not found',
+      details: 'Please check your data before sending'
+    });
+  }
 });
 
 const port = process.env.PORT || '4201';
