@@ -5,6 +5,14 @@ const bodyParser = require('body-parser');
 // parse application/json
 app.use(bodyParser.json());
 
+app.use(function(error, req, res, next) {
+  if (error instanceof SyntaxError) {
+    return res.status(400).json({ status: 400, message: 'JSON parsing failed' });
+  } else {
+    next();
+  }
+});
+
 let Filter = require('./src/filter');
 const corsOptions = {
   allowedHeaders: ['Origin', 'Content-Type', 'Accept'],
@@ -13,15 +21,22 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.post('/', async (request, res) => {
-  if (Filter.checkIfPayload(request.body)) {
-    let responseData = await Filter.checkRightValuesAndSendArray(request.body.payload);
-    let sendResponseData = { response: responseData };
-    return res.send(sendResponseData);
-  } else {
-    return res.status(400).json({
-      message: 'payload not found',
-      details: 'Please check your data before sending'
-    });
+  if (!request.body) {
+    return res.status(400).json({ status: 400, message: 'Could not decode request: JSON parsing failed' });
+  }
+  try {
+    if (Filter.checkIfPayload(request.body)) {
+      let responseData = await Filter.checkRightValuesAndSendArray(request.body.payload);
+      let sendResponseData = { response: responseData };
+      return res.send(sendResponseData);
+    } else {
+      return res.status(400).json({
+        message: 'payload not found',
+        details: 'Please check your data before sending'
+      });
+    }
+  } catch (e) {
+    return res.status(400).json({ status: 400, message: 'Could not decode request: JSON parsing failed' });
   }
 });
 
