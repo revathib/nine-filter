@@ -12,7 +12,8 @@
     "url": "git+https://gitlab.com/revathipathuri/simple-filter-json.git"
   },
   "dependencies": {
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "cors": "^2.8.4"
   },
   "keywords": [
     "title",
