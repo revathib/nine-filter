@@ -21,8 +21,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.post('/', async (request, res) => {
-  if (!request.body) {
-    return res.status(400).json({ status: 400, message: 'Could not decode request: JSON parsing failed' });
+  if (!Object.keys(request.body).length) {
+    return res.status(400).json({ status: 400, error: 'Could not decode request: JSON parsing failed' });
   }
   try {
     if (Filter.checkIfPayload(request.body)) {
@@ -31,12 +31,12 @@ app.post('/', async (request, res) => {
       return res.send(sendResponseData);
     } else {
       return res.status(400).json({
-        message: 'payload not found',
+        error: 'Payload not found',
         details: 'Please check your data before sending'
       });
     }
   } catch (e) {
-    return res.status(400).json({ status: 400, message: 'Could not decode request: JSON parsing failed' });
+    return res.status(400).json({ status: 400, error: 'Could not decode request: JSON parsing failed' });
   }
 });
 
