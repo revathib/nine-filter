@@ -7,7 +7,7 @@ app.use(bodyParser.json());
 
 app.use(function(error, req, res, next) {
   if (error instanceof SyntaxError) {
-    return res.status(400).json({ status: 400, error: 'JSON parsing failed' });
+    return res.status(400).json({ status: 400, error: 'Could not decode request: JSON parsing failed' });
   } else {
     next();
   }
@@ -22,7 +22,7 @@ app.use(cors(corsOptions));
 
 app.post('/', async (request, res) => {
   if (!Object.keys(request.body).length) {
-    return res.status(400).json({ status: 400, error: 'Could not decode request: JSON parsing failed' });
+    return res.status(400).json({ status: 400, error: 'Could not decode request : JSON parsing failed' });
   }
   try {
     if (Filter.checkIfPayload(request.body)) {
